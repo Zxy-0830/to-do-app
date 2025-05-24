@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer, useEffect } from 'react';
+import { useLocalStorage } from './hooks/Hook';
+import { Reducer, ACTIONS } from './reducers/Reducer';
+import Form from './conponents/Form';
+import List from './conponents/List';
+import './style/index.css';
 
-function App() {
+export default function App() {
+  const [storedTasks, setStoredTasks] = useLocalStorage('tasks', []);
+  const [tasks, dispatch] = useReducer(Reducer, storedTasks);
+
+  useEffect(() => {
+    setStoredTasks(tasks);
+  }, [tasks, setStoredTasks]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <h1 className="app-title">What Will Do</h1>
+      <Form dispatch={dispatch} />
+      <List todos={tasks} dispatch={dispatch} />
     </div>
   );
 }
 
-export default App;
+
