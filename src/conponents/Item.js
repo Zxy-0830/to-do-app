@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { FaTrash, FaEdit, FaCheck } from 'react-icons/fa';
+import { FaCheckCircle, FaEdit, FaTrash } from 'react-icons/fa';
 import Button from './button';
 import { ACTIONS } from '../reducers/Reducer';
 
 export default function TodoItem({ todo, dispatch }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [newText, setNewText] = useState(todo.text);
+  const [newText, setNewText]     = useState(todo.text);
 
   const handleToggle = () =>
     dispatch({ type: ACTIONS.TOGGLE, payload: { id: todo.id } });
@@ -26,23 +26,23 @@ export default function TodoItem({ todo, dispatch }) {
     <li className={`todo-item${todo.completed ? ' completed' : ''}`}>
       {isEditing ? (
         <>
-          <input className="edit-input"value={newText}onChange={e => setNewText(e.target.value)}/>
+          <input className="edit-input" value={newText} onChange={e => setNewText(e.target.value)}/>
           <Button onClick={handleUpdate} className="btn-update">
-            <FaCheck />
+            <FaCheckCircle />
           </Button>
         </>
       ) : (
         <>
-          <span className="todo-text"onClick={handleToggle}>
-            {todo.text}
-          </span>
+          <span className="todo-text">{todo.text}</span>
+          <small className="date">{todo.date}</small>
           <div className="icons">
-            <FaEdit className="icon edit"onClick={() => { setNewText(todo.text); setIsEditing(true); }} />
-            <FaTrash className="icon delete"onClick={handleDelete}/>
+            <FaCheckCircle className="icon complete" onClick={handleToggle}/>
+            <FaEdit className="icon edit" onClick={() => { setNewText(todo.text); setIsEditing(true); }}/>
+            <FaTrash className="icon delete" onClick={handleDelete} />
           </div>
         </>
       )}
-      <small className="date">{todo.date}</small>
     </li>
   );
 }
+
